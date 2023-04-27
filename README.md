@@ -13,5 +13,7 @@ Examples:
 ```
 ./modtally.sh https://cdn.discordapp.com/attachments/841664698306134046/1086804997074853919/Nak_Core_Event_22.html
 ```
-
+```
+./modtally.sh https://cdn.discordapp.com/attachments/841664698306134046/1086805064355692674/Nak_OptionalCore_22.html
+```
 
