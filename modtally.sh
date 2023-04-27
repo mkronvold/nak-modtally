@@ -41,9 +41,8 @@ xidel $1 -e '//tr / string-join(td, ",")' > ${IN}
 total=0
 while IFS=, read -r modname source url ; do
     id=$(echo ${url} | awk -F= '{print $2}')
-    [ -d ${modfolder}/${id} ] && size=$(du -sk ${modfolder}/${id} | awk '{print $1}') || size="NOT_INSTALLED"
-    [ "${sizekb}" == "NOT_INSTALLED" ] || totalkb=$(($totalkb+$sizekb))
-    [ "${sizekb}" == "NOT_INSTALLED" ] || sizemb=$(($sizekb/1024))
+    [ -d ${modfolder}/${id} ] && sizekb=$(du -sk ${modfolder}/${id} | awk '{print $1}') || sizekb="NOT_INSTALLED" && sizemb=${sizekb}
+    [ "${sizekb}" == "NOT_INSTALLED" ] || totalkb=$(($totalkb+$sizekb)) && sizemb=$(($sizekb/1024))
     echo "${modname}|${sizemb}"
 done < ${IN} > ${OUT}
 
@@ -51,6 +50,6 @@ hr
 cat ${OUT} | column -ts'|'
 hr
 totalmb=$(($totalkb/1024))
-echo Total Size (MB) = $totalmb
+echo "Total Size (MB) = " $totalmb
 
 cleanup
