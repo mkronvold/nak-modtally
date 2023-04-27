@@ -3,6 +3,8 @@
 
 DEBUG=0
 
+modfolder=/mnt/d/Games/Steam/steamapps/workshop/content/107410/
+
 program=${0##*/}   #  similar to using basename
 tempkey=7129
 IN=$( mktemp /dev/shm/${tempkey}_${program}_tmp.XXXXXXXXXX )
@@ -39,8 +41,8 @@ xidel $1 -e '//tr / string-join(td, ",")' > ${IN}
 total=0
 while IFS=, read -r modname source url ; do
     id=$(echo ${url} | awk -F= '{print $2}')
-    [ -d ${modfolder}/${id} ] && size=$(du -sm /mnt/d/Games/Steam/steamapps/workshop/content/107410/${id} | awk '{print $1}') || size="NOT_INSTALLED"
-    [ ${size} -gt 0 ] && total=$(($total+$size))
+    [ -d ${modfolder}/${id} ] && size=$(du -sm ${modfolder}/${id} | awk '{print $1}') || size="NOT_INSTALLED"
+    [ "${size}" == "NOT_INSTALLED" ] || total=$(($total+$size))
     echo "${modname}|${size}"
 done < ${IN} > ${OUT}
 
