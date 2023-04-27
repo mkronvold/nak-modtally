@@ -30,20 +30,17 @@ trap "die 'SIG disruption, but cleanup finished.' 114" 1 2 3 15
 # generates a line the width of your terminal, takes one arg if you want, defaults to '='
 hr () { printf "%0$(tput cols)d" | tr 0 ${1:-=}; }
 
+### Requirements check
+[[ $(which xidel) ]] || die "Cannot find xidel.  Install it from https://github.com/benibela/xidel"
 
-
-
-
+### Main
 xidel $1 -e '//tr / string-join(td, ",")' > ${IN}
 
-# example
-# 3CB Factions,Steam,https://steamcommunity.com/sharedfiles/filedetails/?id=1673456286
 total=0
-
 while IFS=, read -r modname source url ; do
     id=$(echo ${url} | awk -F= '{print $2}')
-    size=$(du -sm /mnt/d/Games/Steam/steamapps/workshop/content/107410/${id} | awk '{print $1}')
-    total=$(($total+$size))
+    [ -d ${modfolder}/${id} ] && size=$(du -sm /mnt/d/Games/Steam/steamapps/workshop/content/107410/${id} | awk '{print $1}') || size="NOT_INSTALLED"
+    [ ${size} -gt 0 ] && total=$(($total+$size))
     echo "${modname}|${size}"
 done < ${IN} > ${OUT}
 
