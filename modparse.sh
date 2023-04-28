@@ -60,17 +60,21 @@ case "${1}" in
 	;;
 esac
 
+[[ "${2}" == "" ]] || PRESET_NAME=$2
+
 ### Main
 
 [[ ${PARSE_TYPE} == "PRESET" ]] && xidel $1 -e '//tr / string-join(td, ",")' > ${IN}
 [[ ${PARSE_TYPE} == "COLLECTION" ]] && curl --silent $1 | grep href | grep class=\"workshopItemTitle\" | sed "s/>/\"/g" | sed "s/</\"/g" | awk -F\" '{print $9 ",Steam," $3}' > ${IN} && echo "**** Processing: ${1} ****"
 
 total=0
+[[ ${PRESET_NAME} ]] && cat Preset_header.html | 's/PRESET_NAME/${PRESET_NAME}/g' > ${PRESET_NAME}.html
 while IFS=, read -r modname source url ; do
     id=$(echo ${url} | awk -F= '{print $2}')
     [ -d ${modfolder}/${id} ] && sizekb=$(du -sk ${modfolder}/${id} | awk '{print $1}') || sizekb="NOT_INSTALLED" && sizemb=${sizekb}
     [ "${sizekb}" == "NOT_INSTALLED" ] || totalkb=$(($totalkb+$sizekb)) && sizemb=$(($sizekb/1024))
     echo "${modname}|${sizekb}KB|"
+    [[ ${PRESET_NAME} ]] && cat Preset_row.html | sed 's/MOD_NAME/${modname}/g' | sed 's/MOD_URL/${url}/g' >> ${PRESET_NAME}.html
 done < ${IN} > ${OUT}
 
 hr
@@ -79,5 +83,6 @@ hr
 totalmb=$(($totalkb/1024))
 echo ""
 echo "Total Size = ${totalmb}MB"
+[[ ${PRESET_NAME} ]] && cat Preset_footer.html >> ${PRESET_NAME}.html && ls -sh ${PRESET_NAME}
 
-#cleanup
+cleanup
