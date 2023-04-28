@@ -14,7 +14,7 @@ Can read:
 
 Examples:
 ```
-./modtally.sh Nak_Core_Event_22.html
+./modtally.sh Nak_Core_Event_23.html
 ```
 ```
 ./modtally.sh https://cdn.discordapp.com/attachments/841664698306134046/1086804997074853919/Nak_Core_Event_22.html
