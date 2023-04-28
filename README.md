@@ -2,6 +2,12 @@
 
 Parses an ArmA3 Launcher Mod Presets html file and tallys the sizes of all of the installed mods.
 
+Can read:
+- presets saved from the Launcher as a file
+- URL to a preset saved from the Launcher
+- URL to a discord link of a saved html preset
+- URL to a steam collection of mods
+
 ## Usage:
 
 ./modtally.sh { filename.html || https://full.url.to/file.html || https://steamcommunity.com/sharedfiles/filedetails/?id=COLLECTIONID }
