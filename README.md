@@ -28,5 +28,8 @@ Examples:
 ./modtally.sh https://steamcommunity.com/sharedfiles/filedetails/?id=2966740096
 ```
 ```
+./modtally.sh https://steamcommunity.com/sharedfiles/filedetails/?id=2966751999
+```
+```
 ./modtally.sh https://steamcommunity.com/sharedfiles/filedetails/?id=2966740096 Nak_Event_23_Core.html
 ```
