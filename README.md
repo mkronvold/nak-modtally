@@ -4,7 +4,7 @@ Parses an ArmA3 Launcher Mod Presets html file and tallys the sizes of all of th
 
 ## Usage:
 
-./modtally.sh { filename.html || https://full.url.to/file.html }
+./modtally.sh { filename.html || https://full.url.to/file.html || https://steamcommunity.com/sharedfiles/filedetails/?id=COLLECTIONID }
 
 Examples:
 ```
@@ -16,4 +16,6 @@ Examples:
 ```
 ./modtally.sh https://cdn.discordapp.com/attachments/841664698306134046/1086805064355692674/Nak_OptionalCore_22.html
 ```
-
+```
+./modtally.sh https://steamcommunity.com/sharedfiles/filedetails/?id=2966740096
+```
