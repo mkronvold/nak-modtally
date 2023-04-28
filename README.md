@@ -8,9 +8,11 @@ Can read:
 - URL to a discord link of a saved html preset
 - URL to a steam collection of mods
 
+Can export community collections to preset.html files for the launcher.
+
 ## Usage:
 
-./modtally.sh { filename.html || https://full.url.to/file.html || https://steamcommunity.com/sharedfiles/filedetails/?id=COLLECTIONID }
+./modtally.sh { Input.html || https://full.url.to/file.html || https://steamcommunity.com/sharedfiles/filedetails/?id=COLLECTIONID } { Output.html }
 
 Examples:
 ```
@@ -24,4 +26,7 @@ Examples:
 ```
 ```
 ./modtally.sh https://steamcommunity.com/sharedfiles/filedetails/?id=2966740096
+```
+```
+./modtally.sh https://steamcommunity.com/sharedfiles/filedetails/?id=2966740096 Nak_Event_23_Core.html
 ```
