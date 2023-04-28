@@ -35,21 +35,49 @@ hr () { printf "%0$(tput cols)d" | tr 0 ${1:-=}; }
 ### Requirements check
 [[ $(which xidel) ]] || die "Cannot find xidel.  Install it from https://github.com/benibela/xidel"
 
+
+### What type of input are we processing?
+
+[[ "${1}" == "" ]] && die "no file or URL given"
+
+case "${1}" in
+    https://cdn.discordapp.com*)
+	PARSE_TYPE=PRESET
+	echo "**** Parsing: Discord ****"
+	;;
+    https://steamcommunity.com*)
+	PARSE_TYPE=COLLECTION
+	echo "**** Parsing: Steam Collection ****"
+	echo "**** Retrieving (GET): ${1} ****"
+	;;
+    *.html)
+	PARSE_TYPE=PRESET
+	echo "**** Parsing: HTML Preset File ****"
+	;;
+    *)
+	PARSE_TYPE=PRESET
+	echo "**** Parsing: Default ****"
+	;;
+esac
+
 ### Main
-xidel $1 -e '//tr / string-join(td, ",")' > ${IN}
+
+[[ ${PARSE_TYPE} == "PRESET" ]] && xidel $1 -e '//tr / string-join(td, ",")' > ${IN}
+[[ ${PARSE_TYPE} == "COLLECTION" ]] && curl --silent $1 | grep href | grep class=\"workshopItemTitle\" | sed "s/>/\"/g" | sed "s/</\"/g" | awk -F\" '{print $9 ",Steam," $3}' > ${IN} && echo "**** Processing: ${1} ****"
 
 total=0
 while IFS=, read -r modname source url ; do
     id=$(echo ${url} | awk -F= '{print $2}')
     [ -d ${modfolder}/${id} ] && sizekb=$(du -sk ${modfolder}/${id} | awk '{print $1}') || sizekb="NOT_INSTALLED" && sizemb=${sizekb}
     [ "${sizekb}" == "NOT_INSTALLED" ] || totalkb=$(($totalkb+$sizekb)) && sizemb=$(($sizekb/1024))
-    echo "${modname}|${sizemb}"
+    echo "${modname}|${sizekb}KB|"
 done < ${IN} > ${OUT}
 
 hr
-cat ${OUT} | column -ts'|'
+cat ${OUT} | column -s'|'
 hr
 totalmb=$(($totalkb/1024))
-echo "Total Size (MB) = " $totalmb
+echo ""
+echo "Total Size = ${totalmb}MB"
 
-cleanup
+#cleanup
