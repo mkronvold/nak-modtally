@@ -49,5 +49,5 @@ modfolder: point this to the steam workshop folder your mods are in.
 For example under WSL2/Ubuntu your path might be:
  - modfolder=/mnt/c/Games/Steam/steamapps/workshop/content/107410/
 ```
-find /mnt/c -type d -name 107410 -print 2> /dev/null
+echo modfolder=$(find /mnt/c -type d -ipath Steam/steamapps/workshop/content/107410 -print 2> /dev/null)
 ```
