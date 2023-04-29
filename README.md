@@ -51,3 +51,16 @@ For example under WSL2/Ubuntu your path might be:
 ```
 echo modfolder=$(find /mnt/c -ipath *Steam/steamapps/workshop/content/107410 -print -quit 2> /dev/null)
 ```
+
+## Importing Presets
+On the releases page there are presets that you can download and import into the launcher.
+
+There are many ways to import but the launcher is very bad about giving useful error messages when it can't continue.
+
+I have found only one reliable way to import the preset list that works every time.
+
+- On the launcher `MODS` tab in the upper right click `Unload all`.
+- Then click on the `PRESET` dropdown and scroll all the way to the bottom and click on the `Import` button there.
+- Navigate to the place you downloaded the preset html file to (probably your downloads folder) and double click it.
+- If prompted to overwrite the "Imported Preset" select `Overwrite`.
+- It may ask to download additional mods that you're missing at this point.
