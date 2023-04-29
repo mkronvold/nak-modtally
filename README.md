@@ -33,3 +33,21 @@ Examples:
 ```
 ./modtally.sh https://steamcommunity.com/sharedfiles/filedetails/?id=2966740096 Nak_Event_23_Core.html
 ```
+
+## Configure:
+
+Install xidel if it's not already installed:
+ https://github.com/benibela/xidel
+
+For WSL2/Ubuntu:
+```
+curl -s https://versaweb.dl.sourceforge.net/project/videlibri/Xidel/Xidel%200.9.8/xidel-0.9.8.linux64.tar.gz | tar xfpz - xidel
+install -v xidel /usr/bin
+```
+
+modfolder: point this to the steam workshop folder your mods are in.
+For example under WSL2/Ubuntu your path might be:
+ - modfolder=/mnt/c/Games/Steam/steamapps/workshop/content/107410/
+```
+find /mnt/c -type d -name 107410 -print 2> /dev/null
+```
