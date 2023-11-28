@@ -66,7 +66,10 @@ esac
 FETCH=1
 
 [[ ${PARSE_TYPE} == "PRESET" ]] && xidel $1 -e '//tr / string-join(td, ",")' > ${IN}
+[[ ${PARSE_TYPE} == "PRESET" ]] && xidel --silent $1 -e '//tr / string-join(td, ",")' | awk -F, '{print "\"@" $1 "\";"}' | xargs | sed -e 's/@@/?@/g' -e 's/@/\"@/g' -e 's/;\ /;/g' -e 's/;/\";/g' -e 's/|/-/g' -e 's/\?\"@/\"@@/g' -e 's/\"@S.O.G. Prairie Fire\";//g'> ./setmods.txt
 [[ ${PARSE_TYPE} == "COLLECTION" ]] && curl --silent $1 | grep href | grep class=\"workshopItemTitle\" | sed "s/>/\"/g" | sed "s/</\"/g" | awk -F\" '{print $9 ",Steam," $3}' > ${IN} && echo "**** Processing: ${1} ****"
+[[ ${PARSE_TYPE} == "COLLECTION" ]] && curl --silent $1 | grep href | grep class=\"workshopItemTitle\" | sed "s/>/\"/g" | sed "s/</\"/g" | awk -F\" '{print "\"@" $9 "\";"}' | xargs | sed -e 's/;/\";/g' -e 's/|/-/g' -e 's/\?\"@/\"@@/g' -e 's/\"@S.O.G. Prairie Fire\";//g'> ./setmods.txt && echo "**** Post-Processing: ${1} ****"
+
 
 total=0
 [[ ${PRESET_NAME} ]] && cat Preset_header.html | sed 's^PRESET_NAME^'"$PRESET_NAME"'^g' > PRESETS/${PRESET_NAME}.html && echo "**** Exporting: ${2}.html ****"
